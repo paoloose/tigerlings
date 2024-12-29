@@ -20,11 +20,14 @@ echo $account_timestamps
 # Each event in a request will have a timestamp that is strictly greater than the previous event.
 
 # What if we want to store the wall clock time when we create an account or transfer?
-time_now=$(date +%s000000000)
+
+# Hardcoding the time so we don't get different results on each run
+time_now=1735497536000000000
+# time_now=$(date +%s000000000)
 
 # Let's create a transfer and try attaching the timestamp:
-transfer_id=19000
-tb "create_transfers id=$transfer_id debit_account_id=1900 credit_account_id=1901 amount=100 ledger=190 code=10 timestamp=${time_now};"
+transfer_id=19001
+tb "create_transfers id=$transfer_id debit_account_id=1900 credit_account_id=1901 amount=100 ledger=190 code=10 user_data_64=${time_now};" >/dev/null || true
 
 # Now let's check if it worked...
 transfer_has_our_timestamp=$(tb "lookup_transfers id=$transfer_id;" | grep "\"$time_now\"")
