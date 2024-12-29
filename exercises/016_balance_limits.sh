@@ -22,4 +22,8 @@ tb "create_transfers id=16000 debit_account_id=$BANK credit_account_id=$CUSTOMER
 
 # Now, the customer wants to withdraw money fromt the bank.
 # But they're trying to withdraw too much! Can you fix the amount so this transfer succeeds?
-tb "create_transfers id=16001 debit_account_id=$CUSTOMER credit_account_id=$BANK amount=200 ledger=160 code=10;"
+tb "create_transfers id=16002 credit_account_id=$BANK debit_account_id=$CUSTOMER amount=100 ledger=160 code=10;"
+
+tb "lookup_accounts id=$BANK, id=$CUSTOMER;"
+
+# And doing so make both accounts to end up with a net balance of 0
