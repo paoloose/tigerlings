@@ -16,4 +16,4 @@ tb "create_transfers id=14000 debit_account_id=1400 credit_account_id=1401 amoun
                      id=14002 debit_account_id=1400 credit_account_id=1401 amount=100 ledger=140 code=10;"
 
 # Uh oh! We're trying to look up historical balances for an account that doesn't have history enabled.
-tb "get_account_balances account_id=1401;"
+tb "get_account_balances account_id=1400;"
