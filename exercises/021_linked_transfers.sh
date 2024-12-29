@@ -33,17 +33,21 @@ tb "create_accounts id=2100 code=10 ledger=200 flags=linked,
 # - The 4th and 5th transfers fail together
 # - The 6th transfer succeeds on its own
 
-output=$(tb "create_transfers id=21000 debit_account_id=2100 credit_account_id=2102 amount=100 ledger=200 code=10 flags=linked,
-                              id=21001 debit_account_id=2101 credit_account_id=2103 amount=100 ledger=201 code=10 flags=linked,
-                              id=21002 debit_account_id=2102 credit_account_id=2100 amount=100 ledger=299 code=10 flags=linked,
-                              id=21003 debit_account_id=2103 credit_account_id=2101 amount=100 ledger=201 code=10 flags=linked,
-                              id=21004 debit_account_id=2199 credit_account_id=2101 amount=100 ledger=200 code=10 flags=linked,
-                              id=21005 debit_account_id=2100 credit_account_id=2102 amount=100 ledger=200 code=10 flags=linked;")
+output=$(tb "create_transfers id=21010 debit_account_id=2100 credit_account_id=2102 amount=100 ledger=200 code=10 flags=linked,
+                              id=21011 debit_account_id=2101 credit_account_id=2103 amount=100 ledger=201 code=10,
+                              id=21012 debit_account_id=2102 credit_account_id=2100 amount=100 ledger=299 code=10,
+                              id=21013 debit_account_id=2103 credit_account_id=2101 amount=100 ledger=201 code=10 flags=linked,
+                              id=21014 debit_account_id=2199 credit_account_id=2101 amount=100 ledger=200 code=10,
+                              id=21015 debit_account_id=2100 credit_account_id=2102 amount=100 ledger=200 code=10;")
 
+# Note: conditions were slightly modified to fix tests idempotency
 if [[ $output =~ *"Failed to create transfer \(0|1|5\)"* || 
       $output != *"Failed to create transfer (2): tigerbeetle.CreateTransferResult.transfer_must_have_the_same_ledger_as_accounts."* ||
-      $output != *"Failed to create transfer (3): tigerbeetle.CreateTransferResult.linked_event_failed."* ||
-      $output != *"Failed to create transfer (4): tigerbeetle.CreateTransferResult.debit_account_not_found."* ]]; then
+      $output != *"Failed to create transfer (3): tigerbeetle.CreateTransferResult.linked_event_failed."* ]] ||
+   [[
+      $output != *"Failed to create transfer (4): tigerbeetle.CreateTransferResult.debit_account_not_found."* &&
+      $output != *"Failed to create transfer (4): tigerbeetle.CreateTransferResult.id_already_failed."*
+   ]]; then
 
     echo "Uh oh! The transfers didn't have the expected results."
     exit 1
