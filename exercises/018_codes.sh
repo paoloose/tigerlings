@@ -24,10 +24,13 @@ tb "create_accounts id=1800 code=$OPERATOR_ACCOUNT ledger=100,
 
 # Here, we're debiting the operator and crediting the individual.
 # After this transfer, the operator will _owe_ the individual more money.
-tb "create_transfers id=18000 debit_account_id=1800 credit_account_id=1801 amount=100 ledger=100 code=${???};"
+# Explanation: From the individual's perspective, he's depositing money into his account.
+tb "create_transfers id=18000 debit_account_id=1800 credit_account_id=1801 amount=100 ledger=100 code=${DEPOSIT};"
 
 # Now, money is moving from the individual to the business...
-tb "create_transfers id=18001 debit_account_id=1801 credit_account_id=1802 amount=100 ledger=100 code=${???};"
+# Explanation: This is a direct account-to-account transfer, without introducing liabilities or new funds.
+tb "create_transfers id=18001 debit_account_id=1801 credit_account_id=1802 amount=100 ledger=100 code=${TRANSFER};"
 
 # And finally, the business is moving money back to the operator, decreasing the operator's debt to them.
-tb "create_transfers id=18002 debit_account_id=1802 credit_account_id=1800 amount=100 ledger=100 code=${???};"
+# Explanation: The business is withdrawing their owed funds from the system.
+tb "create_transfers id=18002 debit_account_id=1802 credit_account_id=1800 amount=100 ledger=100 code=${WITHDRAWAL};"
