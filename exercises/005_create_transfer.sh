@@ -9,7 +9,7 @@ tb "create_accounts id=500 code=10 ledger=50,
 
 # Then, we'll create a transfer between them.
 # Unfortunately, this command is missing something! Try running it to see what happens.
-tb "create_transfers debit_account_id=500 credit_account_id=501 amount=100 ledger=50 code=10;"
+tb "create_transfers id=6969 debit_account_id=500 credit_account_id=501 amount=100 ledger=50 code=10;"
 
 # Just like Accounts, all Transfers are uniquely identified by an ID!
 
