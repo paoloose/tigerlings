@@ -19,9 +19,15 @@ tb "create_accounts id=800 code=10 ledger=${USD_LEDGER},
 
 # Sorry to make you correct the same error again...
 # But before you do -- note that you see an error for each transfer in the batch!
-tb "create_transfers id=80000 debit_account_id=800 credit_account_id=801 amount=100 ledger=${EUR_LEDGER} code=10,
-                     id=80001 debit_account_id=802 credit_account_id=803 amount=100 ledger=${YEN_LEDGER} code=10,
-                     id=80002 debit_account_id=804 credit_account_id=805 amount=100 ledger=${USD_LEDGER} code=10;"
+
+# The reported error was
+#  Failed to create transfer (0): tigerbeetle.CreateTransferResult.transfer_must_have_the_same_ledger_as_accounts.
+#  Failed to create transfer (1): tigerbeetle.CreateTransferResult.transfer_must_have_the_same_ledger_as_accounts.
+#  Failed to create transfer (2): tigerbeetle.CreateTransferResult.transfer_must_have_the_same_ledger_as_accounts.
+
+tb "create_transfers id=80000 debit_account_id=802 credit_account_id=803 amount=100 ledger=${EUR_LEDGER} code=10,
+                     id=80001 debit_account_id=804 credit_account_id=805 amount=100 ledger=${YEN_LEDGER} code=10,
+                     id=80002 debit_account_id=800 credit_account_id=801 amount=100 ledger=${USD_LEDGER} code=10;"
 
 # By default, all events in a request succeed or fail separately.
 # (There is a feature we'll learn about later that enables us to atomically `link` events together.)
