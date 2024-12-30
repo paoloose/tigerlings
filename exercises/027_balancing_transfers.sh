@@ -22,7 +22,7 @@ tb "create_transfers id=27000 debit_account_id=2700 credit_account_id=2701 amoun
                      id=27001 debit_account_id=2702 credit_account_id=2700 amount=200 ledger=270 code=10;"
 
 # Now we're going to zero out the balance of one of the accounts:
-(tb "create_transfers id=27002 debit_account_id=2701 credit_account_id=2700 amount=0 ledger=270 code=10 flags=balancing_debit;" || true)
+(tb "create_transfers id=27012 debit_account_id=2701 credit_account_id=2700 amount=100 ledger=270 code=10 flags=balancing_debit;" || true)
 # Notice that the amount is 0. TigerBeetle will calculate the account's net balance
 # (in this case the net credit balance because we're using a balancing_debit) and transfer it to the other account.
 # Also, we are ignoring the result of this command because if we run it a second time, it will return the
@@ -30,17 +30,17 @@ tb "create_transfers id=27000 debit_account_id=2700 credit_account_id=2701 amoun
 
 # Can you zero out the balance of the other account?
 # (Remember, we don't want a `balancing_debit` in this case...)
-tb "create_transfers id=27003 debit_account_id=2700 credit_account_id=2702 amount=??? ledger=270 code=10 flags=???;"
+tb "create_transfers id=27014 debit_account_id=2700 credit_account_id=2702 amount=200 ledger=270 code=10 flags=balancing_credit;"
 
 # Let's check that both accounts have a net balance of 0:
 account_one=$(tb "lookup_accounts id=2701;")
-if [[ $account_one != *"\"debits_posted\": \"100\""* && $account_one != *"\"credits_posted\": \"100\""* ]]; then
+if [[ $account_one != *"\"debits_posted\": \"100\""* || $account_one != *"\"credits_posted\": \"100\""* ]]; then
     echo "Account 2701 should have a net balance of 0."
     exit 1
 fi
 
 account_two=$(tb "lookup_accounts id=2702;")
-if [[ $account_two != *"\"debits_posted\": \"200\""* && $account_two != *"\"credits_posted\": \"200\""* ]]; then
+if [[ $account_two != *"\"debits_posted\": \"200\""* || $account_two != *"\"credits_posted\": \"200\""* ]]; then
     echo "Account 2702 should have a net balance of 0."
     exit 1
 fi
