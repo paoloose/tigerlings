@@ -19,13 +19,13 @@ tb "create_transfers id=24000 debit_account_id=2400 credit_account_id=2401 amoun
 tb "lookup_accounts id=2400, id=2401;"
 
 # Now we can execute or "post" the transfer:
-tb "create_transfers id=24000 pending_id=24000 flags=post_pending_transfer;"
+tb "create_transfers id=24002 pending_id=24000 flags=post_pending_transfer;"
 
 # Uh oh! That doesn't work. The second transfer is a separate transfer so it needs its own unique ID.
 
 # Can you fix this so that the second transfer is voided?
 # Hint: we need to use the `void_pending_transfer` flag.
-tb "create_transfers id=24003 pending_id=??? flags=???;"
+tb "create_transfers id=24003 pending_id=24001 flags=void_pending_transfer;"
 
 # Finally, we can look up the accounts again to see their final balances:
 tb "lookup_accounts id=2400, id=2401;"
