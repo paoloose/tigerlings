@@ -27,13 +27,13 @@ tb "create_transfers id=29000 debit_account_id=$OPERATOR_ACCOUNT credit_account_
 
 # Here's where it gets a little crazy.
 LIMIT_AMOUNT=100
-TRANSFER_AMOUNT=200
-tb "create_transfers id=29001 debit_account_id=$SOURCE_ACCOUNT      credit_account_id=$DESTINATION_ACCOUNT amount=$TRANSFER_AMOUNT ledger=290 code=10 flags=linked,
-                     id=29002 debit_account_id=$CONTROL_ACCOUNT     credit_account_id=$OPERATOR_ACCOUNT    amount=$LIMIT_AMOUNT    ledger=290 code=10 flags=linked,
-                     id=29003 debit_account_id=$DESTINATION_ACCOUNT credit_account_id=$CONTROL_ACCOUNT     amount=0                ledger=290 code=10 flags=balancing_debit | pending | linked,
-                     id=29004 pending_id=29003 flags=void_pending_transfer | linked,
-                     id=29005 debit_account_id=$OPERATOR_ACCOUNT    credit_account_id=$CONTROL_ACCOUNT     amount=$LIMIT_AMOUNT    ledger=290 code=10;"
-                
+TRANSFER_AMOUNT=50
+tb "create_transfers id=29006 debit_account_id=$SOURCE_ACCOUNT      credit_account_id=$DESTINATION_ACCOUNT amount=$TRANSFER_AMOUNT ledger=290 code=10 flags=linked,
+                     id=29007 debit_account_id=$CONTROL_ACCOUNT     credit_account_id=$OPERATOR_ACCOUNT    amount=$LIMIT_AMOUNT    ledger=290 code=10 flags=linked,
+                     id=29008 debit_account_id=$DESTINATION_ACCOUNT credit_account_id=$CONTROL_ACCOUNT     amount=0                ledger=290 code=10 flags=balancing_debit | pending | linked,
+                     id=29009 pending_id=29008 flags=void_pending_transfer | linked,
+                     id=29010 debit_account_id=$OPERATOR_ACCOUNT    credit_account_id=$CONTROL_ACCOUNT     amount=$LIMIT_AMOUNT    ledger=290 code=10;"
+
 # This is a set of linked transfers, so either all of them will succeed or none of them will.
 # The first transfer is the one we actually want to create.
 # In the second transfer, we debit the CONTROL_ACCOUNT by the LIMIT_AMOUNT.
