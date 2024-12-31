@@ -13,8 +13,8 @@ tb "create_transfers id=31000 debit_account_id=3100 credit_account_id=3101 amoun
 
 # Now, each time the user makes a request, we'll create a pending transfer with a timeout to temporarily debit the user's account.
 # How long should the timeout be? (Hint: the timeout is an interval in seconds.)
-TIMEOUT=???
-for ((i=1; i<=11; i++)); do
+TIMEOUT=60
+for ((i=1; i<=10; i++)); do
     id=$((31000 + i))
     tb "create_transfers id=${id} debit_account_id=3101 credit_account_id=3100 amount=1 timeout=${TIMEOUT} ledger=310 code=10 flags=pending;"
 done
